@@ -20,6 +20,7 @@ refs.form.addEventListener('submit', onSearch);
 refs.btnLoadMore.addEventListener('click', clickBtnLoadMore);
 
 let page = 1;
+refs.btnLoadMore.style.display = 'none';
 
 function onSearch(evt) {
   evt.preventDefault();
@@ -54,8 +55,9 @@ async function pixabay(name, page) {
   try {
     const response = await axios.get(
       API_URL +
-        `?key=34417202-b497382c2052195e655fddfd5&q=cat&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=20`
+        `?key=34417202-b497382c2052195e655fddfd5&q=${name}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
     );
+    //  const response = await axios.get(API_URL,options);
     notification(response.data.hits.length, response.data.total);
     console.log('try');
     console.log(response);
@@ -119,10 +121,16 @@ function notification(length, totalHits) {
     return;
   }
 
-  if (length === 1) {
+  if (page === 1) {
     refs.btnLoadMore.style.display = 'flex'; // показуємо кнопку loadMore
 
     //повідомлення про кількість знайдених зобрежнь
     Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+  }
+  if (length < 40) {
+    refs.btnLoadMore.style.display = 'none';
+    Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results."
+    );
   }
 }
