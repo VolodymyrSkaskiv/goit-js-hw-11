@@ -34,3 +34,18 @@ function onSearch(evt) {
     );
   }
 }
+
+async function pixabay(name, page) {
+  const API_URL = 'https://pixabay.com/api/';
+  const options = {
+    param: {
+      key: '34417202-b497382c2052195e655fddfd5',
+      q: name,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: 'true',
+      page: page,
+      per_page: 40,
+    },
+  };
+}
